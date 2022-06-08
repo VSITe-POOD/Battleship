@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Vsite.Battleship.Model
@@ -7,10 +6,10 @@ namespace Vsite.Battleship.Model
     public class InlineShooting : INextTarget
     {
         private EnemyGrid enemyGrid;
-        private List<Square> squaresHit;
+        private SortedSquares squaresHit;
         private Direction direction;
 
-        public InlineShooting(EnemyGrid enemyGrid, List<Square> squaresAlreadyHit, int shipLength)
+        public InlineShooting(EnemyGrid enemyGrid, SortedSquares squaresAlreadyHit, int shipLength)
         {
             if (squaresAlreadyHit.Count < 2)
             {
@@ -18,7 +17,7 @@ namespace Vsite.Battleship.Model
             }
             this.enemyGrid = enemyGrid;
             this.squaresHit = squaresAlreadyHit;
-            this.direction = squaresAlreadyHit[0].Row == squaresAlreadyHit[1].Row ? Direction.Left : Direction.Up;
+            this.direction = squaresHit.First().Row == squaresHit.Last().Row ? Direction.Left : Direction.Up;
         }
 
         public Square NextTarget()
@@ -32,7 +31,7 @@ namespace Vsite.Battleship.Model
                 var availableSquaresLeft = enemyGrid.GetAvailableSquares(row, leftColumn, Direction.Left);
                 var availableSquaresRight = enemyGrid.GetAvailableSquares(row, rightColumn, Direction.Right);
 
-                return availableSquaresRight.Count() > availableSquaresLeft.Count() ? availableSquaresRight.First() : availableSquaresLeft.First();
+                return availableSquaresRight.Count() > availableSquaresLeft.Count() ? availableSquaresRight.First() : availableSquaresLeft.Last();
             }
             else
             {
@@ -43,7 +42,7 @@ namespace Vsite.Battleship.Model
                 var availableSquaresUp = enemyGrid.GetAvailableSquares(upRow, column, Direction.Up);
                 var availableSquaresDown = enemyGrid.GetAvailableSquares(downRow, column, Direction.Down);
 
-                return availableSquaresUp.Count() > availableSquaresDown.Count() ? availableSquaresUp.First() : availableSquaresDown.First();
+                return availableSquaresUp.Count() > availableSquaresDown.Count() ? availableSquaresUp.Last() : availableSquaresDown.First();
             }
         }
     }

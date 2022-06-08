@@ -15,7 +15,7 @@ namespace Vsite.Battleship.Model
         private ShootingTactics currentTactics = ShootingTactics.Random;
         private EnemyGrid monitoringGrid;
         private INextTarget targetSelector;
-        private List<Square> squaresHit = new List<Square>();
+        private SortedSquares squaresHit = new SortedSquares();
         private Square lastTarget = new Square(0, 0);
         private List<int> shipsToShoot;
         private SquareEliminator squareEliminator;

@@ -47,7 +47,7 @@ namespace Vsite.Battleship.Model
                     counter = Rows - row - 1;
                     break;
             }
-            var result = new List<Square>();
+            var result = new SortedSquares();
             for (int i = 0; i < counter; ++i)
             {
                 row += deltaRow;
