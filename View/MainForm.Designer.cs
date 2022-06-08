@@ -30,84 +30,85 @@ namespace View
         private void InitializeComponent()
         {
             this.buttonStart = new System.Windows.Forms.Button();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.labelLastTargetHuman = new System.Windows.Forms.Label();
+            this.labelLastTargetComputer = new System.Windows.Forms.Label();
+            this.labelShipsLeftHuman = new System.Windows.Forms.Label();
+            this.labelShipsLeftComputer = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // buttonStart
             // 
-            this.buttonStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 60F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.buttonStart.Location = new System.Drawing.Point(460, 235);
+            this.buttonStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.buttonStart.Location = new System.Drawing.Point(520, 540);
             this.buttonStart.Name = "buttonStart";
-            this.buttonStart.Size = new System.Drawing.Size(320, 130);
+            this.buttonStart.Size = new System.Drawing.Size(220, 40);
             this.buttonStart.TabIndex = 0;
             this.buttonStart.Text = "Start";
             this.buttonStart.UseVisualStyleBackColor = true;
             this.buttonStart.Click += new System.EventHandler(this.buttonStart_Click);
             // 
-            // tableLayoutPanel1
+            // labelLastTargetHuman
             // 
-            this.tableLayoutPanel1.BackColor = System.Drawing.Color.White;
-            this.tableLayoutPanel1.ColumnCount = 10;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(70, 75);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 10;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(413, 453);
-            this.tableLayoutPanel1.TabIndex = 1;
-            this.tableLayoutPanel1.Visible = false;
-            this.tableLayoutPanel1.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.tableLayoutPanel1_CellPaint);
+            this.labelLastTargetHuman.AutoSize = true;
+            this.labelLastTargetHuman.Location = new System.Drawing.Point(64, 35);
+            this.labelLastTargetHuman.Name = "labelLastTargetHuman";
+            this.labelLastTargetHuman.Size = new System.Drawing.Size(57, 13);
+            this.labelLastTargetHuman.TabIndex = 1;
+            this.labelLastTargetHuman.Text = "Last target";
             // 
-            // button1
+            // labelLastTargetComputer
             // 
-            this.button1.Location = new System.Drawing.Point(704, 152);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.labelLastTargetComputer.AutoSize = true;
+            this.labelLastTargetComputer.Location = new System.Drawing.Point(746, 35);
+            this.labelLastTargetComputer.Name = "labelLastTargetComputer";
+            this.labelLastTargetComputer.Size = new System.Drawing.Size(57, 13);
+            this.labelLastTargetComputer.TabIndex = 2;
+            this.labelLastTargetComputer.Text = "Last target";
+            // 
+            // labelShipsLeftHuman
+            // 
+            this.labelShipsLeftHuman.AutoSize = true;
+            this.labelShipsLeftHuman.Location = new System.Drawing.Point(218, 35);
+            this.labelShipsLeftHuman.Name = "labelShipsLeftHuman";
+            this.labelShipsLeftHuman.Size = new System.Drawing.Size(50, 13);
+            this.labelShipsLeftHuman.TabIndex = 3;
+            this.labelShipsLeftHuman.Text = "Ships left";
+            // 
+            // labelShipsLeftComputer
+            // 
+            this.labelShipsLeftComputer.AutoSize = true;
+            this.labelShipsLeftComputer.Location = new System.Drawing.Point(918, 35);
+            this.labelShipsLeftComputer.Name = "labelShipsLeftComputer";
+            this.labelShipsLeftComputer.Size = new System.Drawing.Size(50, 13);
+            this.labelShipsLeftComputer.TabIndex = 4;
+            this.labelShipsLeftComputer.Text = "Ships left";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1244, 601);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.labelShipsLeftComputer);
+            this.Controls.Add(this.labelShipsLeftHuman);
+            this.Controls.Add(this.labelLastTargetComputer);
+            this.Controls.Add(this.labelLastTargetHuman);
             this.Controls.Add(this.buttonStart);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "Battleship";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.Button buttonStart;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label labelLastTargetHuman;
+        private System.Windows.Forms.Label labelLastTargetComputer;
+        private System.Windows.Forms.Label labelShipsLeftHuman;
+        private System.Windows.Forms.Label labelShipsLeftComputer;
     }
 }
 
