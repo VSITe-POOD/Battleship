@@ -27,6 +27,7 @@ namespace View
             CreateButtonsGrid(Player.Human, gridSize);
             CreateButtonsGrid(Player.Computer, gridSize);
             buttonStart.Visible = false;
+            buttonResetShips.Visible = true;
         }
 
         private void CreateButtonsGrid(Player player, int gridSize)
@@ -57,12 +58,22 @@ namespace View
                         label.Text = Convert.ToChar('A' + col).ToString();
                         this.Controls.Add(label);
                     }
-                    var squareButton = new SquareButton(row, col);
+                    if (col == 0)
+                    {
+                        var label = new Label();
+                        label.AutoSize = true;
+                        label.Location = new System.Drawing.Point(positionX - 20, positionY + 15 + row * 40 + row);
+                        label.Size = new System.Drawing.Size(57, 13);
+                        label.Text = (row + 1).ToString();
+                        this.Controls.Add(label);
+                    }
+                    var squareButton = new SquareButton(row, col, player);
                     squareButton.Location = new System.Drawing.Point(positionX + col * 40 + col, positionY + row * 40 + row);
                     squareButton.Name = namePrefix + "_" + row + "_" + col;
                     squareButton.Size = new System.Drawing.Size(40, 40);
                     squareButton.Text = "";
                     squareButton.Click += this.ProcessButtonHit;
+                    
                     this.Controls.Add(squareButton);
                 }
             }
@@ -71,9 +82,23 @@ namespace View
         private void ProcessButtonHit(object sender, EventArgs e)
         {
             var squareButton = sender as SquareButton;
-         
-            
+
+            // Game started - no more Ships resets
+            if (buttonResetShips.Visible)
+            {
+                buttonResetShips.Visible = false;
+            }
+            switch (squareButton.Player)
+            {
+                default:
+                    break;
+            }
+
             Debug.WriteLine($"Button clicked---{squareButton.Name}");
+            Debug.WriteLine($"Top location---{squareButton.Top}");
+            Debug.WriteLine($"Left location---{squareButton.Left}");
+            Debug.WriteLine($"Right location---{squareButton.Right}");
+            Debug.WriteLine($"Bottom location---{squareButton.Bottom}");
         }
 
         private Player WhoStartsFirst()

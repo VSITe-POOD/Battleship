@@ -34,12 +34,13 @@ namespace View
             this.labelLastTargetComputer = new System.Windows.Forms.Label();
             this.labelShipsLeftHuman = new System.Windows.Forms.Label();
             this.labelShipsLeftComputer = new System.Windows.Forms.Label();
+            this.buttonResetShips = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // buttonStart
             // 
             this.buttonStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.buttonStart.Location = new System.Drawing.Point(520, 540);
+            this.buttonStart.Location = new System.Drawing.Point(425, 247);
             this.buttonStart.Name = "buttonStart";
             this.buttonStart.Size = new System.Drawing.Size(220, 40);
             this.buttonStart.TabIndex = 0;
@@ -83,11 +84,22 @@ namespace View
             this.labelShipsLeftComputer.TabIndex = 4;
             this.labelShipsLeftComputer.Text = "Ships left";
             // 
+            // buttonResetShips
+            // 
+            this.buttonResetShips.Location = new System.Drawing.Point(335, 30);
+            this.buttonResetShips.Name = "buttonResetShips";
+            this.buttonResetShips.Size = new System.Drawing.Size(134, 23);
+            this.buttonResetShips.TabIndex = 5;
+            this.buttonResetShips.Text = "Reset Ships";
+            this.buttonResetShips.UseVisualStyleBackColor = true;
+            this.buttonResetShips.Visible = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1244, 601);
+            this.ClientSize = new System.Drawing.Size(1070, 534);
+            this.Controls.Add(this.buttonResetShips);
             this.Controls.Add(this.labelShipsLeftComputer);
             this.Controls.Add(this.labelShipsLeftHuman);
             this.Controls.Add(this.labelLastTargetComputer);
@@ -109,6 +121,7 @@ namespace View
         private System.Windows.Forms.Label labelLastTargetComputer;
         private System.Windows.Forms.Label labelShipsLeftHuman;
         private System.Windows.Forms.Label labelShipsLeftComputer;
+        private System.Windows.Forms.Button buttonResetShips;
     }
 }
 

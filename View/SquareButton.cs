@@ -8,11 +8,17 @@ namespace View
     {
         private readonly int row;
         private readonly int column;
+        private readonly Player player;
 
-        public SquareButton(int row, int column) : base()
+        public SquareButton(int row, int column, Player player) : base()
         {
             this.row = row;
             this.column = column;
+            this.player = player;
+            if (player == Player.Human)
+            {
+                DisableButtonClick();
+            }
             UpdateButtonColor();
         }
 
@@ -22,6 +28,10 @@ namespace View
             {
                 case SquareState.Initial:
                     this.BackColor = Color.LightGray;
+                    if (player == Player.Computer)
+                    {
+                        EnableButtonClick();
+                    }
                     return;
                 case SquareState.Eliminated:
                     this.BackColor = Color.White;
@@ -39,16 +49,25 @@ namespace View
                     this.BackColor = Color.LightGray;
                     return;
             }
-            this.Enabled = false;
+            if (player == Player.Computer)
+            {
+                DisableButtonClick();
+            }
         }
 
         private void DisableButtonClick()
         {
-            throw new NotImplementedException();
+            this.Enabled = false;
+        }
+
+        private void EnableButtonClick()
+        {
+            this.Enabled = true;
         }
 
         public int Row => row;
         public int Column => column;
+        public Player Player => player;
         public SquareState SquareState { get; set; } = SquareState.Initial;
 
     }
