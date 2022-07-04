@@ -4,13 +4,23 @@ using Vsite.Battleship.Model;
 
 namespace View
 {
+    enum SquareButtonState
+    {
+        Initial,
+        Ship,
+        Eliminated,
+        Missed,
+        Hit,
+        Sunken
+    }
     class SquareButton : System.Windows.Forms.Button
     {
         private readonly int row;
         private readonly int column;
         private readonly Player player;
+        private SquareButtonState state;
 
-        public SquareButton(int row, int column, Player player) : base()
+        public SquareButton(int row, int column, Player player, SquareButtonState state) : base()
         {
             this.row = row;
             this.column = column;
@@ -19,30 +29,34 @@ namespace View
             {
                 DisableButtonClick();
             }
+            this.state = state;
             UpdateButtonColor();
         }
 
         public void UpdateButtonColor()
         {
-            switch (SquareState)
+            switch (state)
             {
-                case SquareState.Initial:
+                case SquareButtonState.Initial:
                     this.BackColor = Color.LightGray;
                     if (player == Player.Computer)
                     {
                         EnableButtonClick();
                     }
                     return;
-                case SquareState.Eliminated:
+                case SquareButtonState.Ship:
+                    this.BackColor = Color.Blue;
+                    return;
+                case SquareButtonState.Eliminated:
                     this.BackColor = Color.White;
                     break;
-                case SquareState.Missed:
+                case SquareButtonState.Missed:
                     this.BackColor = Color.DarkGray;
                     break;
-                case SquareState.Hit:
+                case SquareButtonState.Hit:
                     this.BackColor = Color.Red;
                     break;
-                case SquareState.Sunken:
+                case SquareButtonState.Sunken:
                     this.BackColor = Color.DarkRed;
                     break;
                 default:
@@ -68,7 +82,13 @@ namespace View
         public int Row => row;
         public int Column => column;
         public Player Player => player;
-        public SquareState SquareState { get; set; } = SquareState.Initial;
+        public SquareButtonState SquareButtonState {
+            get => state;
+            set { 
+                state = value;
+                UpdateButtonColor();
+            } 
+        }
 
     }
 }

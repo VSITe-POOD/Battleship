@@ -93,6 +93,7 @@ namespace View
             this.buttonResetShips.Text = "Reset Ships";
             this.buttonResetShips.UseVisualStyleBackColor = true;
             this.buttonResetShips.Visible = false;
+            this.buttonResetShips.Click += new System.EventHandler(this.buttonResetShips_Click);
             // 
             // MainForm
             // 

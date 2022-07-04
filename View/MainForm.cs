@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows.Forms;
 using Vsite.Battleship.Model;
 
@@ -13,7 +15,15 @@ namespace View
 
     public partial class MainForm : Form
     {
-        private const int gridSize = 10;
+        private const int gridRowSize = 10;
+        private const int gridColumnSize = 10;
+        public readonly List<int> shipLengths = new List<int>() { 5, 4, 4, 3, 3, 3, 2, 2, 2, 2 };
+        private Game game;
+        private const int gridButtonStartPositionX = 60;
+        private const int gridButtonStartPositionY = 90;
+        private List<SquareButton> playerSquareButtons;
+        private List<SquareButton> cumputerSquareButtons;
+
         public MainForm()
         {
             InitializeComponent();
@@ -23,60 +33,102 @@ namespace View
         {
             var startsFirst = WhoStartsFirst();
             Debug.WriteLine($"Button clicked---{sender}");
-
-            CreateButtonsGrid(Player.Human, gridSize);
-            CreateButtonsGrid(Player.Computer, gridSize);
             buttonStart.Visible = false;
+            this.game = new Game(gridRowSize, gridColumnSize, shipLengths);
+
+            playerSquareButtons = DisplayButtonsGrid(Player.Human, gridRowSize, gridColumnSize);
+            cumputerSquareButtons = DisplayButtonsGrid(Player.Computer, gridRowSize, gridColumnSize);
+
             buttonResetShips.Visible = true;
         }
 
-        private void CreateButtonsGrid(Player player, int gridSize)
+        private List<SquareButton> DisplayButtonsGrid(Player player, int rows, int cols)
         {
-            var namePrefix = "button";
-            var positionX = 60;
-            var positionY = 90;
-            switch (player)
+            if (player == Player.Computer)
             {
-                case Player.Computer:
-                    namePrefix += "Computer";
-                    positionX += 540;
-                    break;
-                case Player.Human:
-                    namePrefix += "Human";
-                    break;
+                return DisplayComputerButtons(rows, cols, gridButtonStartPositionX + 540, gridButtonStartPositionY);
             }
-            for (var row = 0; row < gridSize; row++)
+            else
             {
-                for (var col = 0; col < gridSize; col++)
+                var shipSquares = game.CreatePlayerFleet();
+                return DisplayHumanButtons(rows, cols, gridButtonStartPositionX, gridButtonStartPositionY, shipSquares);
+            }
+        }
+
+        private List<SquareButton> DisplayComputerButtons(int rows, int cols, int positionX, int positionY)
+        {
+            var squareButtons = new List<SquareButton>();
+            for (var row = 0; row < rows; row++)
+            {
+                for (var col = 0; col < cols; col++)
                 {
                     if (row == 0)
                     {
-                        var label = new Label();
-                        label.AutoSize = true;
-                        label.Location = new System.Drawing.Point(positionX + 15 + 40 * col + col, 75);
-                        label.Size = new System.Drawing.Size(57, 13);
-                        label.Text = Convert.ToChar('A' + col).ToString();
-                        this.Controls.Add(label);
+                        DisplayNumberingLabel(positionX + 15 + 40 * col + col, positionY - 15, true, col);
                     }
                     if (col == 0)
                     {
-                        var label = new Label();
-                        label.AutoSize = true;
-                        label.Location = new System.Drawing.Point(positionX - 20, positionY + 15 + row * 40 + row);
-                        label.Size = new System.Drawing.Size(57, 13);
-                        label.Text = (row + 1).ToString();
-                        this.Controls.Add(label);
+                        DisplayNumberingLabel(positionX - 20, positionY + 15 + row * 40 + row, false, row);
                     }
-                    var squareButton = new SquareButton(row, col, player);
+                    var squareButton = new SquareButton(row, col, Player.Computer, SquareButtonState.Initial);
                     squareButton.Location = new System.Drawing.Point(positionX + col * 40 + col, positionY + row * 40 + row);
-                    squareButton.Name = namePrefix + "_" + row + "_" + col;
+                    squareButton.Name = "buttonComputer_" + row + "_" + col;
                     squareButton.Size = new System.Drawing.Size(40, 40);
                     squareButton.Text = "";
                     squareButton.Click += this.ProcessButtonHit;
-                    
+
+                    squareButtons.Add(squareButton);
                     this.Controls.Add(squareButton);
                 }
             }
+            return squareButtons;
+        }
+
+        private List<SquareButton> DisplayHumanButtons(int rows, int cols, int positionX, int positionY, IEnumerable<Square> shipSquares)
+        {
+            var squareButtons = new List<SquareButton>();
+            for (var row = 0; row < rows; row++)
+            {
+                for (var col = 0; col < cols; col++)
+                {
+                    if (row == 0)
+                    {
+                        DisplayNumberingLabel(positionX + 15 + 40 * col + col, positionY - 15, true, col);
+                    }
+                    if (col == 0)
+                    {
+                        DisplayNumberingLabel(positionX - 20, positionY + 15 + row * 40 + row, false, row);
+                    }
+
+                    var squareButton = new SquareButton(row, col, Player.Human, shipSquares.Any(s => s.Row == row && s.Column == col) ? SquareButtonState.Ship : SquareButtonState.Initial);
+                    squareButton.Location = new System.Drawing.Point(positionX + col * 40 + col, positionY + row * 40 + row);
+                    squareButton.Name = "buttonHuman_" + row + "_" + col;
+                    squareButton.Size = new System.Drawing.Size(40, 40);
+                    squareButton.Text = "";
+                    squareButton.Click += this.ProcessButtonHit;
+
+                    squareButtons.Add(squareButton);
+                    this.Controls.Add(squareButton);
+                }
+            }
+            return squareButtons;
+        }
+
+        private void DisplayNumberingLabel(int posX, int posY, bool isChar, int num)
+        {
+            var label = new Label();
+            label.AutoSize = true;
+            label.Location = new System.Drawing.Point(posX, posY);
+            label.Size = new System.Drawing.Size(57, 13);
+            if (isChar)
+            {
+                label.Text = Convert.ToChar('A' + num).ToString();
+            }
+            else
+            {
+                label.Text = (num + 1).ToString();
+            }
+            this.Controls.Add(label);
         }
 
         private void ProcessButtonHit(object sender, EventArgs e)
@@ -113,7 +165,13 @@ namespace View
             return Player.Computer;
         }
 
-        private FleetGrid fleetGrid = new FleetGrid(10, 10);
-        private EnemyGrid enemyGrid = new EnemyGrid(10, 10);
+        private void buttonResetShips_Click(object sender, EventArgs e)
+        {
+            foreach (var squareButton in playerSquareButtons)
+            {
+                Controls.Remove(squareButton);
+            }
+            playerSquareButtons = DisplayButtonsGrid(Player.Human, gridRowSize, gridColumnSize);
+        }
     }
 }
