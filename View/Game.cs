@@ -9,9 +9,6 @@ namespace View
 {
     public class Game
     {
-        private readonly int rows;
-        private readonly int columns;
-        private EnemyGrid enemyGrid;
         private Gunnery gunnery;
         private Shipwright shipwright;
         private Fleet playerFleet;
@@ -19,9 +16,6 @@ namespace View
 
         public Game(int rows, int columns, IEnumerable<int> shipLengths)
         {
-            this.rows = rows;
-            this.columns = columns;
-            this.enemyGrid = new EnemyGrid(rows, columns);
             this.gunnery = new Gunnery(rows, columns, shipLengths);
             this.shipwright = new Shipwright(rows, columns, shipLengths);
             this.computerFleet = shipwright.CreateFleet();

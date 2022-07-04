@@ -23,6 +23,8 @@ namespace View
         private const int gridButtonStartPositionY = 90;
         private List<SquareButton> humanSquareButtons;
         private List<SquareButton> computerSquareButtons;
+        private int humanShipsLeft;
+        private int computerShipsLeft;
 
         public MainForm()
         {
@@ -31,7 +33,6 @@ namespace View
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
-            Debug.WriteLine($"Button clicked---{sender}");
             buttonStart.Visible = false;
             this.game = new Game(gridRowSize, gridColumnSize, shipLengths);
 
@@ -44,6 +45,12 @@ namespace View
                 ResetShips();
                 res = MessageBox.Show("Do you want to reroll your Ships placement again?", "Ship placement", MessageBoxButtons.YesNo);
             }
+
+            humanShipsLeft = shipLengths.Count();
+            computerShipsLeft = shipLengths.Count();
+
+            labelShipsLeftHuman.Text = "Ships left: " + humanShipsLeft;
+            labelShipsLeftComputer.Text = "Ships left: " + computerShipsLeft;
 
             var startsFirst = WhoStartsFirst();
             if (startsFirst == Player.Computer)
@@ -67,9 +74,20 @@ namespace View
                     break;
                 case HitResult.Sunken:
                     UpdateHumanSunkenShip(game.GetPlayerShipSquaresFromSquare(target.Row, target.Column));
+                    humanShipsLeft -= 1;
+                    labelShipsLeftHuman.Text = "Ships left: " + humanShipsLeft;
                     break;
                 default:
                     break;
+            }
+
+            labelLastTargetComputer.Text = "Last target: " + Convert.ToChar('A' + target.Column).ToString() + (target.Row + 1);
+
+            if (humanShipsLeft < 1)
+            {
+                MessageBox.Show("The END, you lose!", "Winner Computer!");
+                RestartGame();
+                return;
             }
         }
 
@@ -180,12 +198,35 @@ namespace View
                     break;
                 case HitResult.Sunken:
                     UpdateSunkenComputerShip(game.GetComputerShipSquaresFromSquare(squareButton.Row, squareButton.Column));
+                    computerShipsLeft -= 1;
+                    labelShipsLeftComputer.Text = "Ships left: " + computerShipsLeft;
                     break;
                 default:
                     break;
             }
 
+            labelLastTargetHuman.Text = "Last target: " + Convert.ToChar('A' + squareButton.Column).ToString() + (squareButton.Row + 1);
+            if (computerShipsLeft < 1)
+            {
+                MessageBox.Show("Congratulations, you win!", "Winner Human!");
+                RestartGame();
+                return;
+            }
+
             ComputerPlays();
+        }
+
+        private void RestartGame()
+        {
+            foreach (var squareButton in humanSquareButtons)
+            {
+                Controls.Remove(squareButton);
+            }
+            foreach (var squareButton in computerSquareButtons)
+            {
+                Controls.Remove(squareButton);
+            }
+            buttonStart.Visible = true;
         }
 
         private void UpdateHumanSunkenShip(IEnumerable<Square> shipSquares)

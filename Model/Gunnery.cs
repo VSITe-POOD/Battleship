@@ -64,7 +64,10 @@ namespace Vsite.Battleship.Model
                     shipsToShoot.Remove(squaresHit.Count);
                     RecordOnMonitoringGrid(hitResult);
                     squaresHit.Clear();
-                    ChangeToRandomTactics();
+                    if (shipsToShoot.Count > 0)
+                    {
+                        ChangeToRandomTactics();
+                    }
                     return;
                 default:
                     Debug.Assert(false);
