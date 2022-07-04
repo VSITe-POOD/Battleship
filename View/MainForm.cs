@@ -22,7 +22,7 @@ namespace View
         private const int gridButtonStartPositionX = 60;
         private const int gridButtonStartPositionY = 90;
         private List<SquareButton> playerSquareButtons;
-        private List<SquareButton> cumputerSquareButtons;
+        private List<SquareButton> computerSquareButtons;
 
         public MainForm()
         {
@@ -37,7 +37,7 @@ namespace View
             this.game = new Game(gridRowSize, gridColumnSize, shipLengths);
 
             playerSquareButtons = DisplayButtonsGrid(Player.Human, gridRowSize, gridColumnSize);
-            cumputerSquareButtons = DisplayButtonsGrid(Player.Computer, gridRowSize, gridColumnSize);
+            computerSquareButtons = DisplayButtonsGrid(Player.Computer, gridRowSize, gridColumnSize);
 
             buttonResetShips.Visible = true;
         }
