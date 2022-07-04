@@ -46,5 +46,27 @@ namespace View
         {
             return computerFleet.Shoot(row, col);
         }
+
+        public Square GetComputerTarget()
+        {
+            return gunnery.NextTarget();
+
+        }
+
+        public HitResult ComputerShoot(Square target)
+        {
+            var hitResult = playerFleet.Shoot(target.Row, target.Column);
+            gunnery.ProcessHitResult(hitResult);
+            return hitResult;
+        }
+
+        public IEnumerable<Square> GetPlayerShipSquaresFromSquare(int row, int col)
+        {
+            return playerFleet.Ships.Where(sh => sh.Squares.Any(sq => sq.Row == row && sq.Column == col)).First().Squares;
+        }
+        public IEnumerable<Square> GetComputerShipSquaresFromSquare(int row, int col)
+        {
+            return computerFleet.Ships.Where(sh => sh.Squares.Any(sq => sq.Row == row && sq.Column == col)).First().Squares;
+        }
     }
 }
