@@ -39,7 +39,7 @@ namespace View
                     this.BackColor = Color.LightGray;
                     return;
             }
-            //DisableButtonClick();
+            this.Enabled = false;
         }
 
         private void DisableButtonClick()

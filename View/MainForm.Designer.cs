@@ -50,7 +50,7 @@ namespace View
             // labelLastTargetHuman
             // 
             this.labelLastTargetHuman.AutoSize = true;
-            this.labelLastTargetHuman.Location = new System.Drawing.Point(64, 35);
+            this.labelLastTargetHuman.Location = new System.Drawing.Point(60, 35);
             this.labelLastTargetHuman.Name = "labelLastTargetHuman";
             this.labelLastTargetHuman.Size = new System.Drawing.Size(57, 13);
             this.labelLastTargetHuman.TabIndex = 1;
@@ -59,7 +59,7 @@ namespace View
             // labelLastTargetComputer
             // 
             this.labelLastTargetComputer.AutoSize = true;
-            this.labelLastTargetComputer.Location = new System.Drawing.Point(746, 35);
+            this.labelLastTargetComputer.Location = new System.Drawing.Point(600, 35);
             this.labelLastTargetComputer.Name = "labelLastTargetComputer";
             this.labelLastTargetComputer.Size = new System.Drawing.Size(57, 13);
             this.labelLastTargetComputer.TabIndex = 2;
@@ -68,7 +68,7 @@ namespace View
             // labelShipsLeftHuman
             // 
             this.labelShipsLeftHuman.AutoSize = true;
-            this.labelShipsLeftHuman.Location = new System.Drawing.Point(218, 35);
+            this.labelShipsLeftHuman.Location = new System.Drawing.Point(220, 35);
             this.labelShipsLeftHuman.Name = "labelShipsLeftHuman";
             this.labelShipsLeftHuman.Size = new System.Drawing.Size(50, 13);
             this.labelShipsLeftHuman.TabIndex = 3;
@@ -77,7 +77,7 @@ namespace View
             // labelShipsLeftComputer
             // 
             this.labelShipsLeftComputer.AutoSize = true;
-            this.labelShipsLeftComputer.Location = new System.Drawing.Point(918, 35);
+            this.labelShipsLeftComputer.Location = new System.Drawing.Point(760, 35);
             this.labelShipsLeftComputer.Name = "labelShipsLeftComputer";
             this.labelShipsLeftComputer.Size = new System.Drawing.Size(50, 13);
             this.labelShipsLeftComputer.TabIndex = 4;
