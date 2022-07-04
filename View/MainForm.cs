@@ -25,6 +25,7 @@ namespace View
         private List<SquareButton> computerSquareButtons;
         private int humanShipsLeft;
         private int computerShipsLeft;
+        private List<Label> gridLabels = new List<Label>();
 
         public MainForm()
         {
@@ -177,6 +178,8 @@ namespace View
             {
                 label.Text = (num + 1).ToString();
             }
+
+            gridLabels.Add(label);
             this.Controls.Add(label);
         }
 
@@ -225,6 +228,10 @@ namespace View
             foreach (var squareButton in computerSquareButtons)
             {
                 Controls.Remove(squareButton);
+            }
+            foreach (var label in gridLabels)
+            {
+                Controls.Remove(label);
             }
             buttonStart.Visible = true;
         }
