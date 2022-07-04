@@ -31,7 +31,6 @@ namespace View
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
-            var startsFirst = WhoStartsFirst();
             Debug.WriteLine($"Button clicked---{sender}");
             buttonStart.Visible = false;
             this.game = new Game(gridRowSize, gridColumnSize, shipLengths);
@@ -39,7 +38,13 @@ namespace View
             playerSquareButtons = DisplayButtonsGrid(Player.Human, gridRowSize, gridColumnSize);
             computerSquareButtons = DisplayButtonsGrid(Player.Computer, gridRowSize, gridColumnSize);
 
-            buttonResetShips.Visible = true;
+            var res = MessageBox.Show("Do you want to reroll your Ships placement?", "Ship placement", MessageBoxButtons.YesNo);
+            while (res == DialogResult.Yes)
+            {
+                ResetShips();
+                res = MessageBox.Show("Do you want to reroll your Ships placement again?", "Ship placement", MessageBoxButtons.YesNo);
+            }
+            var startsFirst = WhoStartsFirst();
         }
 
         private List<SquareButton> DisplayButtonsGrid(Player player, int rows, int cols)
@@ -135,11 +140,6 @@ namespace View
         {
             var squareButton = sender as SquareButton;
 
-            // Game started - no more Ships resets
-            if (buttonResetShips.Visible)
-            {
-                buttonResetShips.Visible = false;
-            }
             switch (squareButton.Player)
             {
                 default:
@@ -165,7 +165,7 @@ namespace View
             return Player.Computer;
         }
 
-        private void buttonResetShips_Click(object sender, EventArgs e)
+        private void ResetShips()
         {
             foreach (var squareButton in playerSquareButtons)
             {

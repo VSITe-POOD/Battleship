@@ -34,7 +34,7 @@ namespace View
             this.labelLastTargetComputer = new System.Windows.Forms.Label();
             this.labelShipsLeftHuman = new System.Windows.Forms.Label();
             this.labelShipsLeftComputer = new System.Windows.Forms.Label();
-            this.buttonResetShips = new System.Windows.Forms.Button();
+            //this.buttonResetShips = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // buttonStart
@@ -86,14 +86,14 @@ namespace View
             // 
             // buttonResetShips
             // 
-            this.buttonResetShips.Location = new System.Drawing.Point(335, 30);
-            this.buttonResetShips.Name = "buttonResetShips";
-            this.buttonResetShips.Size = new System.Drawing.Size(134, 23);
-            this.buttonResetShips.TabIndex = 5;
-            this.buttonResetShips.Text = "Reset Ships";
-            this.buttonResetShips.UseVisualStyleBackColor = true;
-            this.buttonResetShips.Visible = false;
-            this.buttonResetShips.Click += new System.EventHandler(this.buttonResetShips_Click);
+            //this.buttonResetShips.Location = new System.Drawing.Point(335, 30);
+            //this.buttonResetShips.Name = "buttonResetShips";
+            //this.buttonResetShips.Size = new System.Drawing.Size(134, 23);
+            //this.buttonResetShips.TabIndex = 5;
+            //this.buttonResetShips.Text = "Reset Ships";
+            //this.buttonResetShips.UseVisualStyleBackColor = true;
+            //this.buttonResetShips.Visible = false;
+            //this.buttonResetShips.Click += new System.EventHandler(this.buttonResetShips_Click);
             // 
             // MainForm
             // 
