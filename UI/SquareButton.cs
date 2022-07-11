@@ -46,28 +46,34 @@ namespace GUI_Boards
 
         public void UpdateButtonColor()
         {
-            switch (SquareState)
+            switch (state)
             {
-                case SquareState.Initial:
+                case SquareButtonState.Initial:
                     this.BackColor = Color.LightGray;
+                    if (player == Player.Computer)
+                    {
+                        EnableButtonClick();
+                    }
                     return;
-                case SquareState.Eliminated:
+                case SquareButtonState.Ship:
+                    this.BackColor = Color.Blue;
+                    return;
+                case SquareButtonState.Eliminated:
                     this.BackColor = Color.White;
                     break;
-                case SquareState.Missed:
+                case SquareButtonState.Missed:
                     this.BackColor = Color.DarkGray;
                     break;
-                case SquareState.Hit:
+                case SquareButtonState.Hit:
                     this.BackColor = Color.Red;
                     break;
-                case SquareState.Sunken:
-                    this.BackColor = Color.DarkRed;
+                case SquareButtonState.Sunken:
+                    this.BackColor = Color.Black;
                     break;
                 default:
                     this.BackColor = Color.LightGray;
                     return;
             }
-
             if (player == Player.Computer)
             {
                 DisableButtonClick();
@@ -79,8 +85,21 @@ namespace GUI_Boards
             this.Enabled = false;
         }
 
+        private void EnableButtonClick()
+        {
+            this.Enabled = true;
+        }
+
         public int Row => row;
         public int Column => column;
-        public SquareState SquareState { get; set; } = SquareState.Initial;
+        public SquareButtonState SquareButtonState
+        {
+            get => state;
+            set
+            {
+                state = value;
+                UpdateButtonColor();
+            }
+        }
     }
 }

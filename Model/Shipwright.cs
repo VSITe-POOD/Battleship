@@ -20,32 +20,63 @@ namespace Vsite.Battleship.Model
         private Random random = new Random();
         private SquareEliminator squareEliminator;
 
+        //public Fleet CreateFleet()
+        //{
+        //    for (int i = 0; i < 3; i++)
+        //    {
+        //        Fleet fleet = new Fleet();
+        //        foreach (var shipLength in shipLengths)
+        //        {
+        //            var availablePlacements = _fleetGrid.GetAvailablePlacements(shipLength);
+        //            if (availablePlacements.Count() == 0)
+        //            {
+        //                // DZ
+        //                break;
+        //            }
+        //            int index = random.Next(availablePlacements.Count());
+        //            var selectedPlacement = availablePlacements.ElementAt(index);
+        //            fleet.CreateShip(selectedPlacement);
+        //            var toEliminate = squareEliminator.ToEliminate(selectedPlacement);
+        //            foreach (var square in toEliminate)
+        //            {
+        //                _fleetGrid.EliminateSquare(square.Row, square.Column);
+        //            }
+        //        }
+
+        //        return fleet;
+        //    }
+        //    return null;
+        //}
+
         public Fleet CreateFleet()
         {
-            for (int i = 0; i < 3; i++)
+            var fleet = new Fleet();
+            do
             {
-                Fleet fleet = new Fleet();
                 foreach (var shipLength in shipLengths)
                 {
                     var availablePlacements = _fleetGrid.GetAvailablePlacements(shipLength);
                     if (availablePlacements.Count() == 0)
                     {
-                        // DZ
+                        fleet = new Fleet();
+                        _fleetGrid = new FleetGrid(_fleetGrid.Rows, _fleetGrid.Rows);
+                        squareEliminator = new SquareEliminator(_fleetGrid.Rows, _fleetGrid.Rows);
                         break;
                     }
+
                     int index = random.Next(availablePlacements.Count());
                     var selectedPlacement = availablePlacements.ElementAt(index);
                     fleet.CreateShip(selectedPlacement);
-                    var toEliminate = squareEliminator.ToEliminate(selectedPlacement);
-                    foreach (var square in toEliminate)
+
+                    var squaresToEliminate = squareEliminator.ToEliminate(selectedPlacement);
+                    foreach (var square in squaresToEliminate)
                     {
                         _fleetGrid.EliminateSquare(square.Row, square.Column);
                     }
                 }
+            } while (fleet.Ships.Count() != shipLengths.Count());
 
-                return fleet;
-            }
-            return null;
+            return fleet;
         }
     }
 }

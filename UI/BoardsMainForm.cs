@@ -32,6 +32,7 @@ namespace UI
         private int computerShipsLeft;
         private List<Label> gridLabels = new List<Label>();
         private Game game;
+        private int buttonPlaceFleetCounter = 0;
 
         public BoardsMainForm()
         {
@@ -39,6 +40,10 @@ namespace UI
             //computerSquareButtons = DisplayButtonsGrid(Player.Computer, gridRowSize, gridColumnSize);
             //humanSquareButtons = DisplayButtonsGrid(Player.Human, gridRowSize, gridColumnSize);
             //CreateButtonsGrid(Player.Human, 10);
+            buttonStart.Enabled = false;
+
+            computerSquareButtons = DisplayButtonsGrid(Player.Computer, gridRowSize, gridColumnSize);
+            // humanSquareButtons = DisplayButtonsGrid(Player.Human, gridRowSize, gridColumnSize);
         }
 
 
@@ -81,7 +86,6 @@ namespace UI
                     squareButton.Click += this.ProcessButtonHit;
 
                     squareButtons.Add(squareButton);
-                    //groupBox_MyEvidence.Controls.Add(squareButton);
                     groupBox_MyFleet.Controls.Add(squareButton);
                 }
             }
@@ -169,12 +173,47 @@ namespace UI
 
         private void buttonPlaceFleet_Click(object sender, EventArgs e)
         {
-            // buttonPlaceFleet.Visible = false;
-            this.game = new Game(gridRowSize, gridColumnSize, shipLengths);
+            buttonStart.Enabled = true;
 
-            computerSquareButtons = DisplayButtonsGrid(Player.Computer, gridRowSize, gridColumnSize);
-            humanSquareButtons = DisplayButtonsGrid(Player.Human, gridRowSize, gridColumnSize);
+            buttonPlaceFleetCounter += 1;
+            if (buttonPlaceFleetCounter > 1)
+            {
+                ResetMyFleet();
+            }
+            else
+            {
+                this.game = new Game(gridRowSize, gridColumnSize, shipLengths);
+                humanSquareButtons = DisplayButtonsGrid(Player.Human, gridRowSize, gridColumnSize);
+            }
+            
         }
 
+        private Player GameStart()
+        {
+            var random = new Random();
+            if (random.Next(2) == 0)
+            {
+                MessageBox.Show("I start the game!", "Battleship");
+                return Player.Human;
+            }
+            MessageBox.Show("Computer starts the game!", "Battleship");
+            return Player.Computer;
+        }
+
+        private void buttonStart_Click(object sender, EventArgs e)
+        {
+            buttonPlaceFleet.Enabled = buttonStart.Enabled = false;
+            var start = GameStart();
+            
+        }
+
+        private void ResetMyFleet()
+        {
+            foreach (var squareButton in humanSquareButtons)
+            {
+                groupBox_MyFleet.Controls.Remove(squareButton);
+            }
+            humanSquareButtons = DisplayButtonsGrid(Player.Human, gridRowSize, gridColumnSize);
+        }
     }
 }
