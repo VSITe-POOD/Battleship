@@ -21,29 +21,24 @@ namespace UI
 
     public partial class BoardsMainForm : Form
     {
-        private const int gridRowSize = 10;
-        private const int gridColumnSize = 10;
+        private const int gridSize = 10;
         public readonly List<int> shipLengths = new List<int>() { 5, 4, 4, 3, 3, 3, 2, 2, 2, 2 };
         private const int gridButtonStartPositionX = 40;
         private const int gridButtonStartPositionY = 40;
-        private List<SquareButton> humanSquareButtons;
-        private List<SquareButton> computerSquareButtons;
-        private int humanShipsLeft;
-        private int computerShipsLeft;
-        private List<Label> gridLabels = new List<Label>();
+        private List<SquareButton> myFleetSquareButtons;
+        private List<SquareButton> myEvidenceSquareButtons;
+        private int myFleetShipsLeft;
+        private int myEvidenceShipsLeft;
+        private List<Label> gridLabelsMyFleet = new List<Label>();
+        private List<Label> gridLabelsMyEvidence = new List<Label>();
         private Game game;
-        private int buttonPlaceFleetCounter = 0;
+        private int buttonPlaceFleetCounter;
 
         public BoardsMainForm()
         {
             InitializeComponent();
-            //computerSquareButtons = DisplayButtonsGrid(Player.Computer, gridRowSize, gridColumnSize);
-            //humanSquareButtons = DisplayButtonsGrid(Player.Human, gridRowSize, gridColumnSize);
-            //CreateButtonsGrid(Player.Human, 10);
             buttonStart.Enabled = false;
-
-            computerSquareButtons = DisplayButtonsGrid(Player.Computer, gridRowSize, gridColumnSize);
-            // humanSquareButtons = DisplayButtonsGrid(Player.Human, gridRowSize, gridColumnSize);
+            myEvidenceSquareButtons = DisplayButtonsGrid(Player.Computer, gridSize, gridSize);
         }
 
 
@@ -53,11 +48,10 @@ namespace UI
             {
                 return DisplayMyEvidence(rows, cols, gridButtonStartPositionX + 10, gridButtonStartPositionY);
             }
-            else
-            {
-                var shipSquares = game.CreatePlayerFleet();
-                return DisplayMyFleet(rows, cols, gridButtonStartPositionX + 10 , gridButtonStartPositionY, shipSquares);
-            }
+
+            var shipSquares = game.CreatemyFleet();
+            return DisplayMyFleet(rows, cols, gridButtonStartPositionX + 10 , gridButtonStartPositionY, shipSquares);
+            
 
         }
 
@@ -83,7 +77,7 @@ namespace UI
                     squareButton.Name = "buttonHuman_" + row + "_" + col;
                     squareButton.Size = new System.Drawing.Size(40, 40);
                     squareButton.Text = "";
-                    squareButton.Click += this.ProcessButtonHit;
+                    squareButton.Click += ProcessButtonHit;
 
                     squareButtons.Add(squareButton);
                     groupBox_MyFleet.Controls.Add(squareButton);
@@ -109,17 +103,15 @@ namespace UI
                     }
                     
                     var squareButton = new SquareButton(row, col, Player.Computer, SquareButtonState.Initial);
-                    //var squareButton = new SquareButton();
                     squareButton.Location = new System.Drawing.Point(positionX + col * 40 + col, positionY + row * 40 + row);
                     squareButton.Name = "buttonComputer_" + row + "_" + col;
                     squareButton.Size = new System.Drawing.Size(40, 40);
                     squareButton.Text = "";
-                    squareButton.Click += this.ProcessButtonHit;
-
+                    squareButton.Click += ProcessButtonHit;
+                    squareButton.Enabled = false;
+                    
                     squareButtons.Add(squareButton);
                     groupBox_MyEvidence.Controls.Add(squareButton);
-                    //groupBox_MyFleet.Controls.Add(squareButton);
-                    //this.Controls.Add(squareButton);
                 }
             }
             return squareButtons;
@@ -140,7 +132,7 @@ namespace UI
                 label.Text = (num + 1).ToString();
             }
 
-            gridLabels.Add(label);
+            gridLabelsMyEvidence.Add(label);
             groupBox_MyEvidence.Controls.Add(label);
         }
 
@@ -159,7 +151,7 @@ namespace UI
                 label.Text = (num + 1).ToString();
             }
 
-            gridLabels.Add(label);
+            gridLabelsMyFleet.Add(label);
             groupBox_MyFleet.Controls.Add(label);
         }
 
@@ -167,8 +159,35 @@ namespace UI
         {
             var squareButton = sender as SquareButton;
 
-
             Debug.WriteLine($"Button clicked---{squareButton.Name}");
+
+            var hitResult = game.PlayerShoot(squareButton.Row, squareButton.Column);
+            var myEvidenceSquare = myEvidenceSquareButtons.First(c => c.Row == squareButton.Row && c.Column == squareButton.Column);
+            switch (hitResult)
+            {
+                case HitResult.Missed:
+                    myEvidenceSquare.SquareButtonState = SquareButtonState.Missed;
+                    break;
+                case HitResult.Hit:
+                    myEvidenceSquare.SquareButtonState = SquareButtonState.Hit;
+                    break;
+                case HitResult.Sunken:
+                    UpdateSunkenComputerShip(game.GetComputerShipSquaresFromSquare(squareButton.Row, squareButton.Column));
+                    myEvidenceShipsLeft -= 1;
+                    labelShipsLeftMyEvidence.Text = "Ships left: " + myEvidenceShipsLeft;
+                    break;
+            }
+
+            labelLastTargetMyEvidence.Text = "Last target: " + Convert.ToChar('A' + squareButton.Column).ToString() + (squareButton.Row + 1);
+
+            if (myEvidenceShipsLeft < 1)
+            {
+                MessageBox.Show("I won!", "Battleship!");
+                GameRestart();
+                return;
+            }
+
+            ComputerPlays();
         }
 
         private void buttonPlaceFleet_Click(object sender, EventArgs e)
@@ -182,8 +201,8 @@ namespace UI
             }
             else
             {
-                this.game = new Game(gridRowSize, gridColumnSize, shipLengths);
-                humanSquareButtons = DisplayButtonsGrid(Player.Human, gridRowSize, gridColumnSize);
+                game = new Game(gridSize, gridSize, shipLengths);
+                myFleetSquareButtons = DisplayButtonsGrid(Player.Human, gridSize, gridSize);
             }
             
         }
@@ -200,20 +219,141 @@ namespace UI
             return Player.Computer;
         }
 
+        private void GameRestart()
+        {
+            foreach (var squareButton in myFleetSquareButtons)
+            {
+                groupBox_MyFleet.Controls.Remove(squareButton);
+            }
+
+            foreach (var squareButton in myEvidenceSquareButtons)
+            {
+                groupBox_MyEvidence.Controls.Remove(squareButton);
+            }
+
+            foreach (var label in gridLabelsMyEvidence)
+            {
+                groupBox_MyEvidence.Controls.Remove(label);
+            }
+
+            foreach (var label in gridLabelsMyFleet)
+            {
+                groupBox_MyFleet.Controls.Remove(label);
+            }
+
+            labelLastTargetMyFleet.Text = labelLastTargetMyEvidence.Text = "Last Target: ";
+            labelShipsLeftMyEvidence.Text = labelShipsLeftMyFleet.Text = "Ships left";
+
+            buttonStart.Enabled = false;
+            buttonPlaceFleet.Enabled = true;
+            buttonPlaceFleetCounter = 0;
+            myEvidenceSquareButtons = DisplayButtonsGrid(Player.Computer, gridSize, gridSize);
+        }
+
         private void buttonStart_Click(object sender, EventArgs e)
         {
             buttonPlaceFleet.Enabled = buttonStart.Enabled = false;
-            var start = GameStart();
-            
+
+            myFleetShipsLeft = shipLengths.Count();
+            myEvidenceShipsLeft = shipLengths.Count();
+
+            labelShipsLeftMyFleet.Text = "Ships left: " + myFleetShipsLeft;
+            labelShipsLeftMyEvidence.Text = "Ships left: " + myEvidenceShipsLeft;
+
+            foreach (var squarebutton in myEvidenceSquareButtons)
+            {
+                squarebutton.Enabled = true;
+            }
+
+            var playerStarting = GameStart();
+            if (playerStarting == Player.Computer)
+            {
+                ComputerPlays();
+            }
         }
 
         private void ResetMyFleet()
         {
-            foreach (var squareButton in humanSquareButtons)
+            foreach (var squareButton in myFleetSquareButtons)
             {
                 groupBox_MyFleet.Controls.Remove(squareButton);
             }
-            humanSquareButtons = DisplayButtonsGrid(Player.Human, gridRowSize, gridColumnSize);
+            myFleetSquareButtons = DisplayButtonsGrid(Player.Human, gridSize, gridSize);
+        }
+
+        private void ComputerPlays()
+        {
+            var target = game.GetComputerTarget();
+            var hitResult = game.ComputerShoot(target);
+            var humanSquare = myFleetSquareButtons.First(s => s.Row == target.Row && s.Column == target.Column);
+            switch (hitResult)
+            {
+                case HitResult.Missed:
+                    humanSquare.SquareButtonState = SquareButtonState.Missed;
+                    break;
+                case HitResult.Hit:
+                    humanSquare.SquareButtonState = SquareButtonState.Hit;
+                    break;
+                case HitResult.Sunken:
+                    UpdateHumanSunkenShip(game.GetPlayerShipSquaresFromSquare(target.Row, target.Column));
+                    myFleetShipsLeft -= 1;
+                    labelShipsLeftMyFleet.Text = "Ships left: " + myFleetShipsLeft;
+                    break;
+            }
+
+            labelLastTargetMyFleet.Text = "Last target: " + Convert.ToChar('A' + target.Column).ToString() + (target.Row + 1);
+
+            if (myFleetShipsLeft < 1)
+            {
+                MessageBox.Show("The computer won! Better luck next time!", "BattleShip");
+                GameRestart();
+            }
+        }
+
+        private void UpdateHumanSunkenShip(IEnumerable<Square> shipSquares)
+        {
+            foreach (var sunkenSquare in shipSquares)
+            {
+                var humanSquare = myFleetSquareButtons.First(s => s.Row == sunkenSquare.Row && s.Column == sunkenSquare.Column);
+                humanSquare.SquareButtonState = SquareButtonState.Sunken;
+                foreach (var eliminatedSquare in GetAdjacentEliminatedSquares(humanSquare))
+                {
+                    eliminatedSquare.SquareButtonState = SquareButtonState.Eliminated;
+                }
+            }
+        }
+
+        private IEnumerable<SquareButton> GetAdjacentEliminatedSquares(SquareButton squareButton)
+        {
+            if (myFleetSquareButtons.Contains(squareButton))
+            {
+                return myFleetSquareButtons.Where(
+                    s => (s.SquareButtonState == SquareButtonState.Initial || s.SquareButtonState == SquareButtonState.Ship) &&
+                    (s.Row == squareButton.Row || s.Row + 1 == squareButton.Row || s.Row - 1 == squareButton.Row) &&
+                    (s.Column == squareButton.Column || s.Column + 1 == squareButton.Column || s.Column - 1 == squareButton.Column)
+                    );
+            }
+            else
+            {
+                return myEvidenceSquareButtons.Where(
+                    s => (s.SquareButtonState == SquareButtonState.Initial || s.SquareButtonState == SquareButtonState.Ship) &&
+                    (s.Row == squareButton.Row || s.Row + 1 == squareButton.Row || s.Row - 1 == squareButton.Row) &&
+                    (s.Column == squareButton.Column || s.Column + 1 == squareButton.Column || s.Column - 1 == squareButton.Column)
+                    );
+            }
+        }
+
+        private void UpdateSunkenComputerShip(IEnumerable<Square> shipSquares)
+        {
+            foreach (var sunkenSquare in shipSquares)
+            {
+                var myEvidenceSquare = myEvidenceSquareButtons.First(s => s.Row == sunkenSquare.Row && s.Column == sunkenSquare.Column);
+                myEvidenceSquare.SquareButtonState = SquareButtonState.Sunken;
+                foreach (var eliminatedSquare in GetAdjacentEliminatedSquares(myEvidenceSquare))
+                {
+                    eliminatedSquare.SquareButtonState = SquareButtonState.Eliminated;
+                }
+            }
         }
     }
 }

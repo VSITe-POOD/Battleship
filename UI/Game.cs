@@ -11,7 +11,7 @@ namespace GUI_Boards
     {
         private Gunnery gunnery;
         private Shipwright shipwright;
-        private Fleet playerFleet;
+        private Fleet myFleet;
         private Fleet computerFleet;
 
         public Game(int rows, int columns, IEnumerable<int> shipLengths)
@@ -21,12 +21,12 @@ namespace GUI_Boards
             this.computerFleet = shipwright.CreateFleet();
         }
 
-        public IEnumerable<Square> CreatePlayerFleet()
+        public IEnumerable<Square> CreatemyFleet()
         {
             var shipSquareList = new List<Square>();
-            playerFleet = shipwright.CreateFleet();
+            myFleet = shipwright.CreateFleet();
 
-            foreach (var ship in playerFleet.Ships)
+            foreach (var ship in myFleet.Ships)
             {
                 foreach (var square in ship.Squares)
                 {
@@ -49,18 +49,18 @@ namespace GUI_Boards
 
         public HitResult ComputerShoot(Square target)
         {
-            var hitResult = playerFleet.Shoot(target.Row, target.Column);
+            var hitResult = myFleet.Shoot(target.Row, target.Column);
             gunnery.ProcessHitResult(hitResult);
             return hitResult;
         }
 
         public IEnumerable<Square> GetPlayerShipSquaresFromSquare(int row, int col)
         {
-            return playerFleet.Ships.Where(sh => sh.Squares.Any(sq => sq.Row == row && sq.Column == col)).First().Squares;
+            return myFleet.Ships.First(ship => ship.Squares.Any(square => square.Row == row && square.Column == col)).Squares;
         }
         public IEnumerable<Square> GetComputerShipSquaresFromSquare(int row, int col)
         {
-            return computerFleet.Ships.Where(sh => sh.Squares.Any(sq => sq.Row == row && sq.Column == col)).First().Squares;
+            return computerFleet.Ships.First(ship => ship.Squares.Any(square => square.Row == row && square.Column == col)).Squares;
         }
     }
 }

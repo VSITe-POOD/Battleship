@@ -49,29 +49,29 @@ namespace GUI_Boards
             switch (state)
             {
                 case SquareButtonState.Initial:
-                    this.BackColor = Color.LightGray;
+                    BackColor = Color.LightGray;
                     if (player == Player.Computer)
                     {
                         EnableButtonClick();
                     }
                     return;
                 case SquareButtonState.Ship:
-                    this.BackColor = Color.Blue;
+                    BackColor = Color.Blue;
                     return;
-                case SquareButtonState.Eliminated:
-                    this.BackColor = Color.White;
-                    break;
                 case SquareButtonState.Missed:
-                    this.BackColor = Color.DarkGray;
+                    BackColor = Color.DarkGray;
+                    break;
+                case SquareButtonState.Eliminated:
+                    BackColor = Color.White;
                     break;
                 case SquareButtonState.Hit:
-                    this.BackColor = Color.Red;
+                    BackColor = Color.Red;
                     break;
                 case SquareButtonState.Sunken:
-                    this.BackColor = Color.Black;
+                    BackColor = Color.Black;
                     break;
                 default:
-                    this.BackColor = Color.LightGray;
+                    BackColor = Color.LightGray;
                     return;
             }
             if (player == Player.Computer)
@@ -82,12 +82,12 @@ namespace GUI_Boards
 
         private void DisableButtonClick()
         {
-            this.Enabled = false;
+            Enabled = false;
         }
 
         private void EnableButtonClick()
         {
-            this.Enabled = true;
+            Enabled = true;
         }
 
         public int Row => row;

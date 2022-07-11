@@ -34,10 +34,10 @@ namespace UI
             this.groupBox_MyEvidence = new System.Windows.Forms.GroupBox();
             this.buttonPlaceFleet = new System.Windows.Forms.Button();
             this.buttonStart = new System.Windows.Forms.Button();
-            this.labelShipsLeftHuman = new System.Windows.Forms.Label();
-            this.labelLastTargetHuman = new System.Windows.Forms.Label();
-            this.labelShipsLeftComputer = new System.Windows.Forms.Label();
-            this.labelLastTargetComputer = new System.Windows.Forms.Label();
+            this.labelShipsLeftMyFleet = new System.Windows.Forms.Label();
+            this.labelLastTargetMyFleet = new System.Windows.Forms.Label();
+            this.labelShipsLeftMyEvidence = new System.Windows.Forms.Label();
+            this.labelLastTargetMyEvidence = new System.Windows.Forms.Label();
             this.groupBox_MyFleet = new System.Windows.Forms.GroupBox();
             this.SuspendLayout();
             // 
@@ -72,41 +72,41 @@ namespace UI
             this.buttonStart.UseVisualStyleBackColor = true;
             this.buttonStart.Click += new System.EventHandler(this.buttonStart_Click);
             // 
-            // labelShipsLeftHuman
+            // labelShipsLeftMyFleet
             // 
-            this.labelShipsLeftHuman.AutoSize = true;
-            this.labelShipsLeftHuman.Location = new System.Drawing.Point(245, 23);
-            this.labelShipsLeftHuman.Name = "labelShipsLeftHuman";
-            this.labelShipsLeftHuman.Size = new System.Drawing.Size(50, 13);
-            this.labelShipsLeftHuman.TabIndex = 131;
-            this.labelShipsLeftHuman.Text = "Ships left";
+            this.labelShipsLeftMyFleet.AutoSize = true;
+            this.labelShipsLeftMyFleet.Location = new System.Drawing.Point(245, 23);
+            this.labelShipsLeftMyFleet.Name = "labelShipsLeftMyFleet";
+            this.labelShipsLeftMyFleet.Size = new System.Drawing.Size(50, 13);
+            this.labelShipsLeftMyFleet.TabIndex = 131;
+            this.labelShipsLeftMyFleet.Text = "Ships left";
             // 
-            // labelLastTargetHuman
+            // labelLastTargetMyFleet
             // 
-            this.labelLastTargetHuman.AutoSize = true;
-            this.labelLastTargetHuman.Location = new System.Drawing.Point(85, 23);
-            this.labelLastTargetHuman.Name = "labelLastTargetHuman";
-            this.labelLastTargetHuman.Size = new System.Drawing.Size(57, 13);
-            this.labelLastTargetHuman.TabIndex = 130;
-            this.labelLastTargetHuman.Text = "Last target";
+            this.labelLastTargetMyFleet.AutoSize = true;
+            this.labelLastTargetMyFleet.Location = new System.Drawing.Point(85, 23);
+            this.labelLastTargetMyFleet.Name = "labelLastTargetMyFleet";
+            this.labelLastTargetMyFleet.Size = new System.Drawing.Size(57, 13);
+            this.labelLastTargetMyFleet.TabIndex = 130;
+            this.labelLastTargetMyFleet.Text = "Last target";
             // 
-            // labelShipsLeftComputer
+            // labelShipsLeftMyEvidence
             // 
-            this.labelShipsLeftComputer.AutoSize = true;
-            this.labelShipsLeftComputer.Location = new System.Drawing.Point(769, 23);
-            this.labelShipsLeftComputer.Name = "labelShipsLeftComputer";
-            this.labelShipsLeftComputer.Size = new System.Drawing.Size(50, 13);
-            this.labelShipsLeftComputer.TabIndex = 133;
-            this.labelShipsLeftComputer.Text = "Ships left";
+            this.labelShipsLeftMyEvidence.AutoSize = true;
+            this.labelShipsLeftMyEvidence.Location = new System.Drawing.Point(769, 23);
+            this.labelShipsLeftMyEvidence.Name = "labelShipsLeftMyEvidence";
+            this.labelShipsLeftMyEvidence.Size = new System.Drawing.Size(50, 13);
+            this.labelShipsLeftMyEvidence.TabIndex = 133;
+            this.labelShipsLeftMyEvidence.Text = "Ships left";
             // 
-            // labelLastTargetComputer
+            // labelLastTargetMyEvidence
             // 
-            this.labelLastTargetComputer.AutoSize = true;
-            this.labelLastTargetComputer.Location = new System.Drawing.Point(609, 23);
-            this.labelLastTargetComputer.Name = "labelLastTargetComputer";
-            this.labelLastTargetComputer.Size = new System.Drawing.Size(57, 13);
-            this.labelLastTargetComputer.TabIndex = 132;
-            this.labelLastTargetComputer.Text = "Last target";
+            this.labelLastTargetMyEvidence.AutoSize = true;
+            this.labelLastTargetMyEvidence.Location = new System.Drawing.Point(609, 23);
+            this.labelLastTargetMyEvidence.Name = "labelLastTargetMyEvidence";
+            this.labelLastTargetMyEvidence.Size = new System.Drawing.Size(57, 13);
+            this.labelLastTargetMyEvidence.TabIndex = 132;
+            this.labelLastTargetMyEvidence.Text = "Last target";
             // 
             // groupBox_MyFleet
             // 
@@ -123,10 +123,10 @@ namespace UI
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1002, 555);
             this.Controls.Add(this.groupBox_MyFleet);
-            this.Controls.Add(this.labelShipsLeftComputer);
-            this.Controls.Add(this.labelLastTargetComputer);
-            this.Controls.Add(this.labelShipsLeftHuman);
-            this.Controls.Add(this.labelLastTargetHuman);
+            this.Controls.Add(this.labelShipsLeftMyEvidence);
+            this.Controls.Add(this.labelLastTargetMyEvidence);
+            this.Controls.Add(this.labelShipsLeftMyFleet);
+            this.Controls.Add(this.labelLastTargetMyFleet);
             this.Controls.Add(this.buttonStart);
             this.Controls.Add(this.buttonPlaceFleet);
             this.Controls.Add(this.groupBox_MyEvidence);
@@ -142,10 +142,10 @@ namespace UI
         private System.Windows.Forms.GroupBox groupBox_MyEvidence;
         private System.Windows.Forms.Button buttonPlaceFleet;
         private System.Windows.Forms.Button buttonStart;
-        private System.Windows.Forms.Label labelShipsLeftHuman;
-        private System.Windows.Forms.Label labelLastTargetHuman;
-        private System.Windows.Forms.Label labelShipsLeftComputer;
-        private System.Windows.Forms.Label labelLastTargetComputer;
+        private System.Windows.Forms.Label labelShipsLeftMyFleet;
+        private System.Windows.Forms.Label labelLastTargetMyFleet;
+        private System.Windows.Forms.Label labelShipsLeftMyEvidence;
+        private System.Windows.Forms.Label labelLastTargetMyEvidence;
         private System.Windows.Forms.GroupBox groupBox_MyFleet;
     }
 }
