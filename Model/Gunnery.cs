@@ -26,10 +26,11 @@ namespace Vsite.Battleship.Model
         }
 
         private EnemyGrid monitoringGrid;
-        private List<Square> squaresHit = new List<Square>();
+        private SortedSquares squaresHit = new SortedSquares();
         private Square lastTarget = new Square(0, 0);
         private List<int> shipsToShoot;
         private SquareEliminator squareEliminator;
+        private ShootingTactics currentTactics = ShootingTactics.Random;
 
 
         public Square NextTarget()
@@ -68,8 +69,14 @@ namespace Vsite.Battleship.Model
                     shipsToShoot.Remove(squaresHit.Count);
                     RecordOnMonitoringGrid(hitResult);
                     squaresHit.Clear();
-                    ChangeToRandomTactics();
+                    if (shipsToShoot.Count > 0)
+                    {
+                        ChangeToRandomTactics();
+                    }
                     return;
+                default:
+                    Debug.Assert(false);
+                    break;
             }
         }
 
@@ -119,8 +126,6 @@ namespace Vsite.Battleship.Model
             targetSelector = new InlineShooting(monitoringGrid, squaresHit, shipsToShoot[0]);
         }
 
-
-        private ShootingTactics currentTactics = ShootingTactics.Random;
 
         public ShootingTactics ShootingTactics
         {
