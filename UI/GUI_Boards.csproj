@@ -52,6 +52,11 @@
     <Compile Include="BoardsMainForm.Designer.cs">
       <DependentUpon>BoardsMainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Game.cs" />
+    <Compile Include="SquareButton.cs">
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="BoardsMainForm.resx">
@@ -78,6 +83,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{BD5669BB-5472-4F8B-AF38-DFE0A89282E0}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
